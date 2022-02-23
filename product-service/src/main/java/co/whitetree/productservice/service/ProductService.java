@@ -38,4 +38,8 @@ public class ProductService {
                 .flatMap(productRepository::save)
                 .map(EntityDtoUtil::toDto);
     }
+
+    public void deleteProduct(String id) {
+        productRepository.deleteById(id);
+    }
 }
