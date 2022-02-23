@@ -30,4 +30,12 @@ public class ProductService {
                 .flatMap(productRepository::insert)
                 .map(EntityDtoUtil::toDto);
     }
+
+    public Mono<ProductDto> updateProduct(String id, Mono<ProductDto> productDtoMono) {
+        return productRepository.findById(id)
+                .flatMap(p -> productDtoMono.map(EntityDtoUtil::toEntity)
+                        .doOnNext(e -> e.setId(id)))
+                .flatMap(productRepository::save)
+                .map(EntityDtoUtil::toDto);
+    }
 }
