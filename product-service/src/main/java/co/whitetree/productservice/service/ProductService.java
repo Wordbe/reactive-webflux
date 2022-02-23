@@ -1,0 +1,33 @@
+package co.whitetree.productservice.service;
+
+import co.whitetree.productservice.dto.ProductDto;
+import co.whitetree.productservice.repository.ProductRepository;
+import co.whitetree.productservice.util.EntityDtoUtil;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@RequiredArgsConstructor
+@Service
+public class ProductService {
+    private final ProductRepository productRepository;
+
+    public Flux<ProductDto> getAll() {
+        return productRepository
+                .findAll()
+                .map(EntityDtoUtil::toDto);
+    }
+
+    public Mono<ProductDto> getProductById(String id) {
+        return productRepository
+                .findById(id)
+                .map(EntityDtoUtil::toDto);
+    }
+
+    public Mono<ProductDto> insertProduct(Mono<ProductDto> productDtoMono) {
+        return productDtoMono.map(EntityDtoUtil::toEntity)
+                .flatMap(productRepository::insert)
+                .map(EntityDtoUtil::toDto);
+    }
+}
