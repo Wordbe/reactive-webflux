@@ -39,7 +39,7 @@ public class ProductService {
                 .map(EntityDtoUtil::toDto);
     }
 
-    public void deleteProduct(String id) {
-        productRepository.deleteById(id);
+    public Mono<Void> deleteProduct(String id) {
+        return productRepository.deleteById(id);
     }
 }
