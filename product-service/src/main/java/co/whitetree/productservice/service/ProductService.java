@@ -4,6 +4,7 @@ import co.whitetree.productservice.dto.ProductDto;
 import co.whitetree.productservice.repository.ProductRepository;
 import co.whitetree.productservice.util.EntityDtoUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Range;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -16,6 +17,12 @@ public class ProductService {
     public Flux<ProductDto> getAll() {
         return productRepository
                 .findAll()
+                .map(EntityDtoUtil::toDto);
+    }
+
+    public Flux<ProductDto> getProductByPriceRange(int min, int max) {
+        return productRepository
+                .findByPriceBetween(Range.closed(min, max))
                 .map(EntityDtoUtil::toDto);
     }
 
