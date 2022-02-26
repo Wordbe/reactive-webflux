@@ -9,7 +9,7 @@ import org.springframework.util.StreamUtils;
 
 import java.nio.charset.StandardCharsets;
 
-@Service
+//@Service
 public class DataSetupService implements CommandLineRunner {
 
     private final Resource initSql;
